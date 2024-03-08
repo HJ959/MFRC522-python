@@ -32,7 +32,7 @@ class SimpleMFRC522:
       (status, uid) = self.READER.MFRC522_Anticoll()
       if status != self.READER.MI_OK:
           return None
-      return self.uid_to_num(uid)
+      return uid
   
   def read_no_block(self):
     (status, TagType) = self.READER.MFRC522_Request(self.READER.PICC_REQIDL)
@@ -41,7 +41,7 @@ class SimpleMFRC522:
     (status, uid) = self.READER.MFRC522_Anticoll()
     if status != self.READER.MI_OK:
         return None, None
-    id = self.uid_to_num(uid)
+    id = uid
     self.READER.MFRC522_SelectTag(uid)
     status = self.READER.MFRC522_Auth(self.READER.PICC_AUTHENT1A, 11, self.KEY, uid)
     data = []
@@ -69,7 +69,7 @@ class SimpleMFRC522:
       (status, uid) = self.READER.MFRC522_Anticoll()
       if status != self.READER.MI_OK:
           return None, None
-      id = self.uid_to_num(uid)
+      id = uid
       self.READER.MFRC522_SelectTag(uid)
       status = self.READER.MFRC522_Auth(self.READER.PICC_AUTHENT1A, 11, self.KEY, uid)
       self.READER.MFRC522_Read(11)
@@ -83,8 +83,8 @@ class SimpleMFRC522:
       self.READER.MFRC522_StopCrypto1()
       return id, text[0:(len(self.BLOCK_ADDRS) * 16)]
       
-  def uid_to_num(self, uid):
-      n = 0
-      for i in range(0, 5):
-          n = n * 256 + uid[i]
-      return n
+  #def uid_to_num(self, uid):
+  #    n = 0
+  #    for i in range(0, 5):
+  #        n = n * 256 + uid[i]
+  #    return n
